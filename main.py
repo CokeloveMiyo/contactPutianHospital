@@ -52,12 +52,12 @@ with open('config.yaml', 'r', encoding='utf-8') as config_file:
 
 # http://g1879.gitee.io/drissionpagedocs/ChromiumPage/browser_options/
 co = (ChromiumOptions()
-.set_no_imgs(config['browser']['chrome_options']['no_imgs'])  # 加载图片
-.set_headless(config['browser']['chrome_options']['headless'])  # 有界面模式
+.no_imgs(config['browser']['chrome_options']['no_imgs'])  # 加载图片
+.headless(config['browser']['chrome_options']['headless'])  # 有界面模式
 .auto_port(config['browser']['chrome_options']['auto_port'])  # 自动获取端口
 # .set_proxy("xxxxx")
 .set_user_agent(UserAgent().random)  # 随机UserAgent
-.set_paths(browser_path=config['browser']['chrome_options']['browser_path']))  # 修正浏览器路径设置方法
+.set_browser_path(config['browser']['chrome_options']['browser_path']))  # 修正浏览器路径设置方法
 
 BAIDU_URL = config['browser']['baidu_url']
 TEL_NUMBER = config['browser']['tel_number']  # 手机号码
@@ -418,13 +418,13 @@ def iterate_api(file_path):
 
     # 尝试接管已启动的浏览器（端口9222），若失败则启动新浏览器实例
     try:
-        page = ChromiumPage(addr_driver_opts='127.0.0.1:9222')
+        page = ChromiumPage(addr_or_opts='127.0.0.1:9222')
         # 简单验证连接状态（获取当前URL或标题，若未连接成功通常会抛出异常）
         _ = page.title
         logger.info("成功接管已启动的浏览器 (127.0.0.1:9222)")
     except Exception as e:
         logger.info(f"未检测到已启动的浏览器 (127.0.0.1:9222)，正在启动新实例... ({e})")
-        page = ChromiumPage(addr_driver_opts=co)
+        page = ChromiumPage(addr_or_opts=co)
 
     try:
         page.get(BAIDU_URL)
