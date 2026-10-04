@@ -303,8 +303,7 @@ def process_tab(page:ChromiumPage, url:str, success_counter:Counter, total_len):
         # tid = page.new_tab(url)
         # tab = page.get_tab(tid)
         url = url.strip()
-        tid = page.new_tab(url)
-        tab = page.get_tab(tid)
+        tab = page.new_tab(url)
         tab.wait.load_start(timeout=5)
         if STOP_EVENT.is_set():
             return
